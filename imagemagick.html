@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<head lang="en">
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+		<style>body{font-size:20px;}</style>
+		<title>docs and apis</title>
+	</head>
+	<title>图片压缩</title>
+</head>
+<body>
+<div class="container">
+	<h2>常用命令 Command</h2>
+	<ul>
+		<li>mogrify [options] origfile 修改并覆盖</li>
+		<li>convert [options] origfile outputfile 修改输出到指定位置</li>
+	</ul>
+	<h2>常用参数 Options</h2>
+	<ul>
+		<li>
+			-quality arg% 压缩比
+			<code>-quality 75%</code>
+		</li>
+		<li>
+			-strip 去除照片相关信息
+			<code>-strip</code>
+		</li>
+		<li>
+			-resize "{width}x{height}[^|!|&gt;]" 缩放图片
+			关于高宽规则后缀的规则说明
+			<ol>
+				<li>100x100  高度和宽度比例保留最高值，高比不变</li>
+				<li>100x100^ 高度和宽度比例保留最低值，宽高比不变</li>
+				<li>100x100! 宽度和高度强制转换，忽视宽高比</li>
+				<li>100x100&gt; 更改长宽，当图片长或宽超过规定的尺寸</li>
+				<li>100x100&lt; 更改长宽 只有当图片长宽都超过规定的尺寸</li>
+				<li>100x100^&gt; 更改长宽，当图片长或宽超过规定的尺寸。高度和宽度比例保留最低值</li>
+				<li>100x100^&lt; 更改长宽，只有当图片长宽都超过规定的尺寸。高度和宽度比例保留最低值</li>
+				<li>100  按指定的宽度缩放，保持宽高比例</li>
+				<li>x100 按指定高度缩放，保持宽高比</li>
+			</ol>
+				<pre>
+等比缩/放到不超过500x300的区域的最大图片
+mogrify -resize "500x300" * 
+缩/放到500x300的的图片
+mogrify -resize "500x300!" * 
+等比缩到500x300的的图片,只压缩不放大
+mogrify -resize "500x300>" * 
+				</pre>
+		</li>
+		<li>
+			-sample "{width}x{height}[^|!|&gt;]" 同-resize只是算法比较简单，速度快,适合压缩成很小的图片
+			<pre>mogrify -sample 500x300 *</pre>
+		</li>
+		<li>
+			-thumbnail 生成缩略图
+			<pre>
+等比压缩后
+convert b.jpg -thumbnail "100x100>" nail.jpg
+等比压缩放后裁剪多余部分
+convert b.png -thumbnail "100x100^" -gravity center -extent 100x100 nail.png
+等比压缩放后填充剩余部分
+convert b.png -thumbnail "100x100" -background gray -gravity center -extent 100x100 nail.png
+转化成png等比缩放，多余部分填充透明
+convert b.jpg -thumbnail "100x100" -background "#00000000" -gravity center -extent 100x100 nail.png
+			</pre>
+		</li>
+		<li>
+			-crop {width}x{height}+{x}+{y} 裁剪图片,从(x,y)坐标开始裁剪{width}x{height}的区域
+			<pre>mogrify -crop 500x300+0+0 *</pre>
+		</li>
+	</ul>
+	<h2>常用命令</h2>
+	<pre>
+#缩略图制作
+##压缩到指定大小范围之内
+mogrify -strip -thumbnail "100x100>" file.jpg
+##到指定大小，多余部分填充透明色,并转换为png格式
+convert -strip -thumbnail "100x100>" -gravity center -extent 100x100 -background "#00000000" b.jpg b.png
+##压缩到指定大小，并裁剪掉多余部分
+mogrify -thumbnail "100x100^" -gravity center -extent 100x100 b.jpg
+##压缩到指定宽度
+mogrify -resize "700>" b.jpg
+## 获取图片大
+identify -format "%hx%w" b.jpg 
+	</pre>
+	<h2>一个用来批量修改数据库图片的方法</h2>
+	<pre>
+#!/usr/bin/env bash
+echo "
+SELECT
+  REPLACE(img,'/upload/','mogrify -resize \"400x400>\" -strip /app/fanutramall/web-bak/upload_file/')
+  INTO OUTFILE '$PWD/nail.sh'
+FROM Goods 
+WHERE img IS NOT NULL;
+" > nail.sql
+mysql -uroot -psa fanutramall < nail.sql
+. nail.sh
+rm -f nail.sql
+rm -f nail.sh
+	</pre>
+</div>
+</body>
+</html>
