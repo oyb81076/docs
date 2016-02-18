@@ -1,4 +1,7 @@
 # mysql
+```
+CREATE DATABASE wechat_bs DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+```
 ## 记录mysql的sql日志 5.1.29+
 ```
 添加 /etc/mysql/my.cnf文件
@@ -33,3 +36,6 @@ rollback;
 ## 事务隔离级别的锁问题
 ### REPEATABLE READ
 * update,select for update会阻塞其他update以及select for update都会被阻塞,阻塞在rollback或commit之后结束
+
+
+

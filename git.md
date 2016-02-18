@@ -21,6 +21,11 @@
 		* snapshot 维护者
 			* git pull origin master
 
+# gitblit
+因为伟大的长城防火墙,gitblit的头像图片无法使用gravatar的服务
+需要给把www.gravatar.com映射到cn.gravatar.com
+自行修改hosts
+
 # 常用命令
 git rm .gradle
 git rm --cache .gradle

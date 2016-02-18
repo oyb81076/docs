@@ -195,4 +195,34 @@ task release {
         }
     }
 }
+/// 依赖包复制
+task lib (type: Copy){
+	from configurations.runtime
+	into 'lib'
+	def copyDetails = []
+	eachFile { copyDetails << it }
+	doLast {
+		copyDetails.each { FileCopyDetails details ->
+			def target = new File(destinationDir, details.path)
+			if(target.exists()) {
+				target.setLastModified(details.lastModified)
+			}
+		}
+	}
+}
 ```
+## Maven 设置
+```
+apply plugin: 'maven'
+
+//archivesBaseName = "thrift-tx"
+group = "com.ganroft"
+version = "1.2-SNAPSHOT"
+repositories {
+    mavenLocal()
+    maven { url 'http://maven.oschina.net/content/groups/public/' }
+}
+```
+加载插件 maven 之后就可以使用gradle install 发布jar包到本地依赖了
+
+
