@@ -27,19 +27,25 @@
 自行修改hosts
 
 # 常用命令
-git rm .gradle
-git rm --cache .gradle
+git rm -r .gradle
+git rm -r --cache .gradle
 git branch -d 2.0.3
 git push --delete origin 2.0.3
 
-git tag tagName
-git tag -d tagName
-git push origin tags
-git push origin tagName
+git tag {tagName} 添加本地tag
+git tag -d {tagName} 删除本地tag
+git push origin {tagName}
+git push origin :refs/tags/{tagName} 删除远程tag
 
 git branch branchName
 git checkout branchName
 git branch -d branchName
+
+git remote set-url origin ssh://admin@gitblit:29418/fuliqi/testing/testing-physical.git
+
+git remote rm origin
+git remote add origin git@github.com:Liutos/foobar.git
+
 
 # 完整配备 .gitignore
 ```
@@ -58,3 +64,5 @@ tmp/
 *.pid
 *.iml
 ```
+
+
