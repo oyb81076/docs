@@ -86,4 +86,18 @@ vi ~/.vimrc
 :BundleInstall
 ```
 
+# java8 安装
+```
+add-apt-repository ppa:webupd8team/java
+apt-get update
+apt-get install oracle-java8-installer
+update-java-alternatives -s java-8-oracle
+```
+修改 /etc/default/tomcat7 配置 `JAVA_HOME=/usr/lib/jvm/java-8-oracle`
+## 设置java8为默认JDK 如果已经安装了java8
+```
+update-java-alternatives -s java-8-oracle
+```
 
+### mongodb (2.4.9)
+apt-get install mongodb
