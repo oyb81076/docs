@@ -60,15 +60,8 @@ make install;
 npm install coffee-script -g;
 npm install forever -g
 ```
-## cnpm nodejs淘宝镜像
-```
-npm install -g cnpm --registry=https://registry.npm.taobao.org
-```
-## forever nodejs deamon
-```
-cnpm i -g forever
-```
 # redis 安装最新版本
+https://www.ilanni.com/?p=11838#3.1 apt-get%E5%AE%89%E8%A3%85%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC
 ```
 sudo apt-get install -y python-software-properties  
 sudo apt-get install software-properties-common  
@@ -99,5 +92,6 @@ update-java-alternatives -s java-8-oracle
 update-java-alternatives -s java-8-oracle
 ```
 
-### mongodb (2.4.9)
-apt-get install mongodb
+### mongodb
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+只安装客户端, 只用安装mongodb-clients
