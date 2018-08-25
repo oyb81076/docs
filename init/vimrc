@@ -23,10 +23,10 @@ filetype plugin indent on    " required
 syntax enable
 syntax on
 "缩进
-set tabstop=2 
-set softtabstop=2 
-set shiftwidth=2 
-set noexpandtab 
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab 
 "相对行号
 set nu
 "自动缩进
