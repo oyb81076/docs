@@ -1,12 +1,12 @@
 # 以下为CentOS 7 装机指南
-echo "主机名称" > /etc/hostname
+hostnamectl set-hostname 主机名
+yum install autojump git -y
 echo "alias vi=vim" >> ~/.bashrc
-yum install git -y
-git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-将vimrc内容复制到服务器 .vimrc中, vi打开.vimrc, 执行:BundleInstall
-yum install autojump -y
 echo ". /usr/share/autojump/autojump.bash" >> ~/.bashrc
 echo 'export PS1="\u@\h:\w$ "' >> ~/.bashrc
+source ~/.bashrc
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+将vimrc内容复制到服务器 .vimrc中, vi打开.vimrc, 执行:BundleInstall
 
 # 免密登录
 将本机的id_ras.pub内容复制到服务器的~/.ssh/authroizen_keys文件中
@@ -36,13 +36,17 @@ gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
 ```
 // 只安装mongo链接 import export工具
 yum install -y mongodb-org-shell mongodb-org-tools
+// 全部安装
+sudo yum install -y mongodb-org
+systemctl start  mongod.service
+systemctl enable mongod.service
 
 # nginx
 yum install -y nginx
 systemctl start nginx.service
 systemctl enable nginx.service
 
-# mysql5.7安装
+# mysql5.7安装 (matiradb)
 wget http://repo.mysql.com/mysql57-community-release-el7-8.noarch.rpm
 rpm -ivh mysql57-community-release-el7-8.noarch.rpm
 yum install mysql-server
@@ -55,6 +59,32 @@ ALTER USER 'root'@'localhost' PASSWORD EXPIRE NEVER;
 flush privileges;
 
 # redis
-yum install redis
+yum install redis -y
 vi /etc/redis.conf
 修改 requiredpass = sa
+systemctl start redis.service
+systemctl enable redis.service
+
+# rabbitmq
+http://www.rabbitmq.com/install-rpm.html#install-erlang
+注意 /etc/hostname 需要加入到 /etc/hosts中, 否则启动会失败
+```
+/etc/hosts
+127.0.0.1 myhostname
+```
+* 安装erlang
+```
+weget wget -c https://bintray.com/rabbitmq/rpm/download_file?file_path=erlang%2F20%2Fel%2F7%2Fx86_64%2Ferlang-20.3.8.7-1.el7.centos.x86_64.rpm -O erlang-20.3.8.7-1.el7.centos.x86_64.rpm
+yum install erlang-20.3.8.7-1.el7.centos.x86_64.rpm
+```
+* 安装rabbitmq
+```
+weget https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.7/rabbitmq-server-3.7.7-1.el7.noarch.rpm
+rpm –-import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
+yum install rabbitmq-server-3.7.7-1.el7.noarch.rpm
+```
+* 启动
+```
+systemctl enable rabbitmq-server
+systemctl start rabbitmq-server.service
+```
