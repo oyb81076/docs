@@ -13,16 +13,23 @@ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 # nodejs yarn
 https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
-curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+##curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash -
 curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
-sudo yum -y install nodejs yarn
+yum -y install nodejs yarn
+npm config set registry http://registry.npm.taobao.org/
+yarn config set registry http://registry.npm.taobao.org/
 
 # node-canvas
 https://github.com/Automattic/node-canvas/
-yum install -y gcc-c++ fontconfig
-yum install -y cairo cairo-devel cairomm-devel libjpeg-turbo-devel pango pango-devel pangomm pangomm-devel giflib-devel
+yum install -y gcc-c++ fontconfig cairo cairo-devel cairomm-devel libjpeg-turbo-devel pango pango-devel pangomm pangomm-devel giflib-devel
 直接将字体文件拷贝到 /user/share/fonts/ 下面就可以了
 fc-list 可以检查字体是否安装成功
+
+# pm2
+npm i -g pm2
+pm2 install pm2-logrotate
+pm2 set pm2-logrotate:max_size 50M
 
 # mongodb https://docs.mongodb.com/v3.4/tutorial/install-mongodb-on-red-hat/
 vi /etc/yum.repos.d/mongodb-org-3.4.repo
@@ -80,7 +87,6 @@ yum install erlang-20.3.8.7-1.el7.centos.x86_64.rpm
 * 安装rabbitmq
 ```
 weget https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.7/rabbitmq-server-3.7.7-1.el7.noarch.rpm
-rpm –-import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
 yum install rabbitmq-server-3.7.7-1.el7.noarch.rpm
 ```
 * 启动
