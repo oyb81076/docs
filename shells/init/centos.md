@@ -1,11 +1,13 @@
 # 以下为CentOS 7 装机指南
+```
 hostnamectl set-hostname 主机名
 yum install autojump git -y;
 echo "alias vi=vim" >> ~/.bashrc;
 echo ". /usr/share/autojump/autojump.bash" >> ~/.bashrc;
-echo 'export PS1="\u@\h:\w$ "' >> ~/.bashrc;
+echo 'export PS1="\[\e[01;35m\][\u@\h \w] $ \[\e[0m\]"' >> ~/.bashrc;
 source ~/.bashrc;
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim;
+```
 
 将vimrc内容复制到服务器 .vimrc中, vi打开.vimrc, 执行:BundleInstall
 
@@ -15,7 +17,7 @@ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim;
 # nodejs yarn
 https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
 ``#curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -``
-curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash -
+curl --silent --location https://rpm.nodesource.com/setup_14.x | sudo bash -
 curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
 yum -y install nodejs yarn
 npm config set registry http://registry.npm.taobao.org/
@@ -79,6 +81,12 @@ SET PASSWORD = PASSWORD('sa');
 ALTER USER 'root'@'localhost' PASSWORD EXPIRE NEVER;
 flush privileges;
 ```
+# mysql8
+rpm -ivh https://dev.mysql.com/get/mysql80-community-release-el7-2.noarch.rpm
+yum -y install mysql80-community-release-el7-2.noarch.rpm
+yum -y install mysql-community-server
+systemcel start mysqld
+systemcel enable mysqld 
 
 # mysql5.5
 rpm -ivh http://repo.mysql.com/yum/mysql-5.5-community/el/6/x86_64/mysql-community-release-el6-5.noarch.rpm
