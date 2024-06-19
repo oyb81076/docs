@@ -12,7 +12,7 @@ defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
 ```
 
 ## Shadowsock
-https://originss.co
+https://github.com/OriginCloud/Website
 
 ## Idea
 https://www.jetbrains.com/idea/
@@ -30,6 +30,7 @@ https://www.cocos.com/creator
 * ossutil https://help.aliyun.com/document_detail/50452.html
 
 ## JDK
+建议安装 jdk8 or jdk11
 * jdk8 https://www.oracle.com/technetwork/java/javase/downloads/java-archive-javase8-2177648.html
 * jdk最新版本 https://www.oracle.com/technetwork/java/javase/downloads/index.html
 
@@ -60,7 +61,7 @@ https://brew.sh
 #### 常用依赖
 ```bash
 # 常用的
-brew install mysql mongodb rabbitmq redis macvim nginx wget autojump
+brew install rabbitmq redis macvim nginx wget autojump
 
 # 语言相关
 brew install node yarn golang python@3 gradle maven protobuf
@@ -68,20 +69,30 @@ brew install node yarn golang python@3 gradle maven protobuf
 # node-canvas 使用的依赖
 brew install pkg-config cairo pango libpng jpeg giflib librsvg
 ```
-## Mysql8
+
+## Mysql
+### Mysql8
 接触密码验证的方法
 ```bash
 mysql -uroot;
 UNINSTALL COMPONENT 'file://component_validate_password';
 alter user 'root'@'localhost' identified with mysql_native_password by 'sa';
 ```
-在mysql5.7中删除validate_password的方式位
+### 在mysql5.7
+中删除validate_password的方式位
 ```bash
 uninstall plugin validate_password;
 ```
+
 ## yarn 淘宝景象
 ```bash
 yarn config set registry https://registry.npm.taobao.org
+```
+
+## mongodb
+```
+brew tap mongodb/brew
+brew install mongodb-community
 ```
 
 ## vim
